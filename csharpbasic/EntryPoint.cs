@@ -1,8 +1,8 @@
-// public class EntryPoint
-// {
-//     public static void Main()
-//     {
-//        OddNum odd=new OddNum();
-//        odd.i; 
-//     }
-// }
+ public class EntryPoint
+ {
+     public static void Main()
+     {
+        Pattern obj1=new();
+        obj1.firstPattern();
+     }
+ }
