@@ -9,7 +9,6 @@ public class EntryPoint
         System.Console.WriteLine(output1);
         System.Console.WriteLine(output3);
 
-
     }
 
 }
