@@ -1,0 +1,7 @@
+img{
+    border-radius: 50%; 
+    height:200px;
+}
+.p1{/*if tag start with dot then it is a class selector,it is used */
+    color: green;
+}
