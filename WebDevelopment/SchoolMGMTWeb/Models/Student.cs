@@ -7,7 +7,7 @@
         public string LastName { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Dob { get; set; }
         public string Phone { get; set; }
         public string Program { get; set; }
         public string Semester { get; set; }

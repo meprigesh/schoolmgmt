@@ -8,11 +8,8 @@ namespace SchoolMGMTWeb.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseS
-                qlServer(@"Data Source=(localdb)\schoollocaldb;Initial Catalog=testdb;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=SchoolManagementDb;Integrated Security=True");
         }
-        public DbSet<Student> Students { get; set; }
-            
-            
+        public DbSet<Student> Students { get; set; }     
     }
 }

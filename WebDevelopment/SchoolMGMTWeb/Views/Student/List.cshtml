@@ -1,0 +1,37 @@
+﻿@model List<Student>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>email</th>   
+            <th>phone</th>
+            <th>address</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Program</th>   
+            <th>semester</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var s in Model)
+        {
+            <tr>
+                <td>@s.FirstName</td>
+                <td>@s.LastName</td>
+                <td>@s.Email</td>
+                <td>@s.Phone</td>
+                <td>@s.Address</td>
+                <td>@s.Dob</td>
+                <td>@s.Gender</td>
+                <td>@s.Program</td>
+                <td>@s.Semester</td>
+                <td>
+                    <a href="/Student/Edit/@s.Id"><i class="btn btn-warning">Edit</i></a>
+                    <a href="/Student/Delete/@s.Id"><i class="btn btn-danger">Delete</i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
