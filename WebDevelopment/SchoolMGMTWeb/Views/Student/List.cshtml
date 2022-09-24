@@ -1,7 +1,9 @@
 ﻿@model List<Student>
+<a class="btn btn-success" asp-controller="Student" asp-action="Add">Add New Student</a>
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th></th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>email</th>   
@@ -18,6 +20,10 @@
         @foreach(var s in Model)
         {
             <tr>
+                <td>
+                    <img class="rounded-circle" width="20" src="/profile-images/@s.ProfileImage" />
+                </td>
+                
                 <td>@s.FirstName</td>
                 <td>@s.LastName</td>
                 <td>@s.Email</td>
@@ -28,8 +34,8 @@
                 <td>@s.Program</td>
                 <td>@s.Semester</td>
                 <td>
-                    <a href="/Student/Edit/@s.Id"><i class="btn btn-warning">Edit</i></a>
-                    <a href="/Student/Delete/@s.Id"><i class="btn btn-danger">Delete</i></a>
+                    <a href="/Student/Edit/@s.Id"><i class="bi bi-pencil-square text-warning"></i></a>
+                    <a href="/Student/Delete/@s.Id"><i class="bi bi-trash text-danger"></i></a>
                 </td>
             </tr>
         }
