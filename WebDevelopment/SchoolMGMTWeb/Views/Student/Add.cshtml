@@ -1,9 +1,10 @@
-﻿@model Student
+﻿@using SchoolMGMTWeb.ViewModel
+@model StudentViewModel
 
 @{
     var genderList = new List<SelectListItem>
     {
-        new SelectListItem{Text="male",Value="M"},
+        new SelectListItem{Text="Male",Value="M"},
         new SelectListItem{Text="Female",Value="F"},
         new SelectListItem{Text="Other",Value="O"}
 
@@ -12,43 +13,53 @@
 }
 
 <form method="post" class="row" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="mb-2 col-md-6">
         <label asp-for="FirstName" class="form-label"></label>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
         <input asp-for="FirstName" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="LastName" class="form-label"></label>
+        <span asp-validation-for="LastName" class="text-danger"></span>
         <input asp-for="LastName" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="Email" class="form-label"></label>
+        <span asp-validation-for="Email" class="text-danger"></span>
         <input asp-for="Email" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="Phone" class="form-label"></label>
+        <span asp-validation-for="Phone" class="text-danger"></span>
         <input asp-for="Phone" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="Address" class="form-label"></label>
+        <span asp-validation-for="Address" class="text-danger"></span>
         <input asp-for="Address" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="Dob" class="form-label"></label>
+        <span asp-validation-for="Dob" class="text-danger"></span>
         <input asp-for="Dob" class="form-control">
     </div>
 
     <div class="mb-2 col-md-6">
         <label asp-for="Gender" class="form-label"></label>
-        <input asp-for="Gender" asp-items="genderList" class="form-control">
+        <span asp-validation-for="Gender" class="text-danger"></span>
+        <select asp-for="Gender" asp-items="genderList" class="form-control"></select>
     </div>
 
 
     <div class="mb-2 col-md-6">
         <label asp-for="Program" class="form-label"></label>
+        <span asp-validation-for="Program" class="text-danger"></span>
         <input asp-for="Program" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="Semester" class="form-label"></label>
+        <span asp-validation-for="Semester" class="text-danger"></span>
         <input asp-for="Semester" class="form-control">
     </div>
     <div class="mb-2 col-md-6">
@@ -62,3 +73,6 @@
     </div>
     
 </form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+}

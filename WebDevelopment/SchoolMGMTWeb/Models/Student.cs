@@ -19,8 +19,8 @@ namespace SchoolMGMTWeb.Models
         public bool Active { get; set; } = true;
 
 
-        [NotMapped]
-        public IFormFile Avater { get; set; }
+       // [NotMapped]
+        //public IFormFile Avater { get; set; }
         public string ProfileImage { get; set; }
     }
 }

@@ -4,6 +4,8 @@ using SchoolMGMTWeb.Data;
 using SchoolMGMTWeb.Models;
 using System.Security.Cryptography.X509Certificates;
 using System.Reflection;
+using SchoolMGMTWeb.Mapper;
+using SchoolMGMTWeb.ViewModel;
 
 namespace SchoolMGMTWeb.Controllers
 {
@@ -24,7 +26,8 @@ namespace SchoolMGMTWeb.Controllers
         public IActionResult List()
         {
             var students = db.Students.Where(student=>student.Active==true).ToList();
-            return View(students);
+            var studentsViewModels = students.ToViewModel();
+            return View(studentsViewModels);
         }
 
         [HttpGet]
@@ -32,32 +35,14 @@ namespace SchoolMGMTWeb.Controllers
 
         //Code to add new data
         [HttpPost]
-        public IActionResult Add(Student student)
+        public IActionResult Add(StudentViewModel student)
         {
             //var image = student.Avater;
             student.ProfileImage = SaveProfileImage(student.Avater) ?? "Default.png";
-            db.Students.Add(student);
-            db.SaveChanges();
+         //  db.Students.Add(student);
+          // db.SaveChanges();
 
             return RedirectToAction("list");
-
-           /* var imageDirectory = Path.Combine(hostEnvironment.WebRootPath, "profile-images");
-            Directory.CreateDirectory(imageDirectory);
-
-            var fileName = $"{Guid.NewGuid()}_{image.FileName}";
-
-
-            string filePath = Path.Combine(imageDirectory, fileName);
-
-            using (Stream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            {
-                image.CopyTo(fileStream);
-            }
-
-            student.ProfileImage = fileName;
-            db.Students.Add(student);
-            db.SaveChanges();
-            return RedirectToAction("List");*/
         }
 
         private string?SaveProfileImage(IFormFile image)
