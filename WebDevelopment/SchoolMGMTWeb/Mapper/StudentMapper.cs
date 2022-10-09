@@ -1,10 +1,13 @@
 ﻿using SchoolMGMTWeb.Models;
 using SchoolMGMTWeb.ViewModel;
+using System.Net;
+using System;
 
 namespace SchoolMGMTWeb.Mapper
 {
     public static class StudentMapper
     {
+
         public static StudentViewModel ToViewModel(this Student student)
         {
             var studentViewModel = new StudentViewModel
@@ -20,7 +23,7 @@ namespace SchoolMGMTWeb.Mapper
                 LastName = student.LastName,
                 Name = $"{student.FirstName} {student.LastName}",
                 Id = student.Id,
-                Program = student.Program,
+                Program = student.Program.Name,
                 Semester = student.Semester
             };
             return studentViewModel;
@@ -33,5 +36,23 @@ namespace SchoolMGMTWeb.Mapper
             return studentViewModels;
         }
 
+        public static Student ToModel(this StudentViewModel studentViewModel)
+        {
+            var student = new Student()
+            {
+                FirstName = studentViewModel.FirstName,
+                LastName = studentViewModel.LastName,
+                Active = studentViewModel.Active,
+                Address = studentViewModel.Address,
+                Email = studentViewModel.Email,
+                Dob = studentViewModel.Dob,
+                Gender = studentViewModel.Gender,
+                Phone = studentViewModel.Phone,
+                Id = studentViewModel.Id,
+                ProgramId = studentViewModel.ProgramId,
+                Semester = studentViewModel.Semester 
+            };
+            return student;
+        }
     }
 }

@@ -46,5 +46,6 @@ namespace SchoolMGMTWeb.ViewModel
         public bool Active { get; set; }
         public IFormFile Avater { get; set; }
         public string ProfileImage { get; set; }
+        public int ProgramId { get; set; }
     }
 }

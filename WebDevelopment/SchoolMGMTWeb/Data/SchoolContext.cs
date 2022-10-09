@@ -10,6 +10,8 @@ namespace SchoolMGMTWeb.Data
         {
             optionsBuilder.UseSqlServer(@"Data Source=(localdb)\mssqllocaldb;Initial Catalog=SchoolManagementDb;Integrated Security=True");
         }
-        public DbSet<Student> Students { get; set; }     
+        public DbSet<Student> Students { get; set; }  
+        public DbSet<Models.Program> Programs  { get; set; }
+        public DbSet<SchoolMGMTWeb.Models.Semester> Semester { get; set; }
     }
 }

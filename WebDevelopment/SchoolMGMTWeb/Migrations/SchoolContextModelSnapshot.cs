@@ -22,6 +22,73 @@ namespace SchoolMGMTWeb.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("ProgramSemester", b =>
+                {
+                    b.Property<int>("ProgramsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SemestersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProgramsId", "SemestersId");
+
+                    b.HasIndex("SemestersId");
+
+                    b.ToTable("ProgramSemester");
+                });
+
+            modelBuilder.Entity("SchoolMGMTWeb.Models.Program", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Established")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Stream")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Programs");
+                });
+
+            modelBuilder.Entity("SchoolMGMTWeb.Models.Semester", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Fee")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Semester");
+                });
+
             modelBuilder.Entity("SchoolMGMTWeb.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -64,9 +131,8 @@ namespace SchoolMGMTWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Program")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Semester")
                         .IsRequired()
@@ -74,7 +140,93 @@ namespace SchoolMGMTWeb.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProgramId");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("SchoolMGMTWeb.Models.Subject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte>("CreditHours")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Optional")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subject");
+                });
+
+            modelBuilder.Entity("SemesterSubject", b =>
+                {
+                    b.Property<int>("SemstersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SemstersId", "SubjectsId");
+
+                    b.HasIndex("SubjectsId");
+
+                    b.ToTable("SemesterSubject");
+                });
+
+            modelBuilder.Entity("ProgramSemester", b =>
+                {
+                    b.HasOne("SchoolMGMTWeb.Models.Program", null)
+                        .WithMany()
+                        .HasForeignKey("ProgramsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolMGMTWeb.Models.Semester", null)
+                        .WithMany()
+                        .HasForeignKey("SemestersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SchoolMGMTWeb.Models.Student", b =>
+                {
+                    b.HasOne("SchoolMGMTWeb.Models.Program", "Program")
+                        .WithMany("Students")
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Program");
+                });
+
+            modelBuilder.Entity("SemesterSubject", b =>
+                {
+                    b.HasOne("SchoolMGMTWeb.Models.Semester", null)
+                        .WithMany()
+                        .HasForeignKey("SemstersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolMGMTWeb.Models.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SchoolMGMTWeb.Models.Program", b =>
+                {
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

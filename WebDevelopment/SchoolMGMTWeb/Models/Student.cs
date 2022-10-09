@@ -13,13 +13,14 @@ namespace SchoolMGMTWeb.Models
         public string Email { get; set; }
         public DateTime Dob { get; set; }
         public string Phone { get; set; }
-        public string Program { get; set; }
         public string Semester { get; set; }
         public char Gender { get; set; }
         public bool Active { get; set; } = true;
+        public int ProgramId { get; set; }
+        public Program Program { get; set; }
 
 
-       // [NotMapped]
+        // [NotMapped]
         //public IFormFile Avater { get; set; }
         public string ProfileImage { get; set; }
     }

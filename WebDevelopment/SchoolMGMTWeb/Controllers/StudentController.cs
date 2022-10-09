@@ -6,6 +6,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Reflection;
 using SchoolMGMTWeb.Mapper;
 using SchoolMGMTWeb.ViewModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SchoolMGMTWeb.Controllers
 {
@@ -23,31 +25,41 @@ namespace SchoolMGMTWeb.Controllers
 
         //route to access list
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            var students = db.Students.Where(student=>student.Active==true).ToList();
+            var students = await db.Students.Where(student=>student.Active==true).Include(x=>x.Program).ToListAsync();
             var studentsViewModels = students.ToViewModel();
             return View(studentsViewModels);
         }
 
         [HttpGet]
-        public IActionResult Add()=>View();
+        public async Task<IActionResult> Add()
+        {
+            var programs = await db.Programs.ToListAsync();
+            ViewData["programs"] = programs.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            }).ToList();
+            return View();
+        }
 
         //Code to add new data
         [HttpPost]
-        public IActionResult Add(StudentViewModel student)
+        public async Task<IActionResult> Add(StudentViewModel studentViewModel)
         {
             //var image = student.Avater;
-            student.ProfileImage = SaveProfileImage(student.Avater) ?? "Default.png";
-         //  db.Students.Add(student);
-          // db.SaveChanges();
+            var student = studentViewModel.ToModel();
+            student.ProfileImage = SaveProfileImage(studentViewModel.Avater) ?? "Default.png";
+            await db.Students.AddAsync(student);
+            await db.SaveChangesAsync();
 
             return RedirectToAction("list");
         }
 
         private string?SaveProfileImage(IFormFile image)
         {
-            if(image is null)
+            if(image is null||image.Length<=0)
             {
                 return null;
             }
@@ -69,14 +81,25 @@ namespace SchoolMGMTWeb.Controllers
         //code to edit existing data
         public IActionResult Edit(int id)
         {
-            var student = db.Students.Find(id);
-            return View (student);
+            var student = db.Students.Where(x => x.Id == id).Include(x => x.Program).FirstOrDefault();
+            var studentViewModel=student?.ToViewModel();
+
+            var program = db.Programs.ToList();
+            ViewData["programs"] = program.Select(x =>
+            new SelectListItem
+            {
+                Text=x.Name,
+                Value=x.Id.ToString()
+            }).ToList();
+            return View (studentViewModel);
         }
 
 
         [HttpPost]
-        public IActionResult Edit(Student student)
+        public IActionResult Edit(StudentViewModel studentViewModel)
         {
+            var student=studentViewModel.ToModel();
+            student.ProfileImage=SaveProfileImage(studentViewModel.Avater)??studentViewModel.ProfileImage;
             db.Students.Update(student);
             db.SaveChanges();
             return RedirectToAction("List");

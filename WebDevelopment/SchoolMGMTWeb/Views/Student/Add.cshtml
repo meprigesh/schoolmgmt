@@ -55,7 +55,7 @@
     <div class="mb-2 col-md-6">
         <label asp-for="Program" class="form-label"></label>
         <span asp-validation-for="Program" class="text-danger"></span>
-        <input asp-for="Program" class="form-control">
+        <select asp-for="ProgramId" asp-items="programs" class="form-control"></select>
     </div>
     <div class="mb-2 col-md-6">
         <label asp-for="Semester" class="form-label"></label>
