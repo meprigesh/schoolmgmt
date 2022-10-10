@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using SchoolMGMTWeb.Data;
-using SchoolMGMTWeb.Models;
+using SchoolManagement.ApplicationCore.Models;
 using System.Security.Cryptography.X509Certificates;
 using System.Reflection;
 using SchoolMGMTWeb.Mapper;
 using SchoolMGMTWeb.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SchoolManagement.Infrastructure.Data;
 
 namespace SchoolMGMTWeb.Controllers
 {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolMGMTWeb.Models;
+//using SchoolMGMTWeb.Models;
+using SchoolManagement.ApplicationCore.Models;
+using SchoolMGMTWeb.ViewModel;
 using System.Data.SqlClient;
 using System.Diagnostics;
 

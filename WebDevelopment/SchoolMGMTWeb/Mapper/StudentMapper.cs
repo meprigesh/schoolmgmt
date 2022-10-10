@@ -1,4 +1,4 @@
-﻿using SchoolMGMTWeb.Models;
+﻿using SchoolManagement.ApplicationCore.Models;
 using SchoolMGMTWeb.ViewModel;
 using System.Net;
 using System;

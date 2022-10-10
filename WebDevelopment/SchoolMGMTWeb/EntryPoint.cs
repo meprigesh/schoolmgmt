@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SchoolMGMTWeb.Data;
+using SchoolManagement.Infrastructure.Data;
+
 public class EntryPoint
 {
     public static void Main(string[] args)

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SchoolMGMTWeb.Data;
-using SchoolMGMTWeb.Models;
+//using SchoolMGMTWeb.Data;
+using SchoolManagement.ApplicationCore.Models;
+using SchoolManagement.Infrastructure.Data;
 
 namespace SchoolMGMTWeb.Controllers
 {
