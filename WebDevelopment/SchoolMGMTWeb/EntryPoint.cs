@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SchoolManagement.Infrastructure.Data;
+using SchoolManagement.Infrastructure.Repositories;
 
 public class EntryPoint
 {
@@ -11,6 +12,8 @@ public class EntryPoint
         // Add services to the container.
         builder.Services.AddDbContext<SchoolContext>();
         builder.Services.AddControllersWithViews();
+        builder.Services.AddScoped<StudentRepository>();
+        builder.Services.AddScoped<ProgramRepository>();
 
 
         var app = builder.Build();

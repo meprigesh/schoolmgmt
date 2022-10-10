@@ -8,34 +8,39 @@ using SchoolMGMTWeb.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolManagement.Infrastructure.Data;
+using SchoolManagement.Infrastructure.Repositories;
 
 namespace SchoolMGMTWeb.Controllers
 {
     public class StudentController : Controller
     {
         //dependency injection of school context
-        private SchoolContext db;
+        private readonly StudentRepository studentRepository;
+        private readonly ProgramRepository programRepository;
         private readonly IWebHostEnvironment hostEnvironment;
-        public StudentController(SchoolContext db,IWebHostEnvironment hostEnvironment)
+        public StudentController(StudentRepository studentRepository,IWebHostEnvironment hostEnvironment,ProgramRepository programRepository)
         {
-            this.db = db;
+            this.studentRepository = studentRepository;
+            this.programRepository=programRepository;
             this.hostEnvironment = hostEnvironment;
         }
 
 
         //route to access list
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string searchText)
         {
-            var students = await db.Students.Where(student=>student.Active==true).Include(x=>x.Program).ToListAsync();
+            var students = await studentRepository.AllAsync(searchText);
             var studentsViewModels = students.ToViewModel();
             return View(studentsViewModels);
         }
 
+
+        //get method to acces program for add
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var programs = await db.Programs.ToListAsync();
+            var programs = await programRepository.All();
             ViewData["programs"] = programs.Select(x => new SelectListItem
             {
                 Text = x.Name,
@@ -51,8 +56,7 @@ namespace SchoolMGMTWeb.Controllers
             //var image = student.Avater;
             var student = studentViewModel.ToModel();
             student.ProfileImage = SaveProfileImage(studentViewModel.Avater) ?? "Default.png";
-            await db.Students.AddAsync(student);
-            await db.SaveChangesAsync();
+            await studentRepository.InserAsync(student);
 
             return RedirectToAction("list");
         }
@@ -81,11 +85,12 @@ namespace SchoolMGMTWeb.Controllers
         //code to edit existing data
         public IActionResult Edit(int id)
         {
-            var student = db.Students.Where(x => x.Id == id).Include(x => x.Program).FirstOrDefault();
+            // var student = db.Students.Where(x => x.Id == id).Include(x => x.Program).FirstOrDefault();
+            var student = studentRepository.Findasync(id);
             var studentViewModel=student?.ToViewModel();
 
-            var program = db.Programs.ToList();
-            ViewData["programs"] = program.Select(x =>
+            var programs = programRepository.All().Result;
+            ViewData["programs"] = programs.Select(x =>
             new SelectListItem
             {
                 Text=x.Name,
@@ -95,36 +100,35 @@ namespace SchoolMGMTWeb.Controllers
         }
 
 
+
         [HttpPost]
         public IActionResult Edit(StudentViewModel studentViewModel)
         {
             var student=studentViewModel.ToModel();
             student.ProfileImage=SaveProfileImage(studentViewModel.Avater)??studentViewModel.ProfileImage;
-            db.Students.Update(student);
-            db.SaveChanges();
+            studentRepository.Update(student);
             return RedirectToAction("List");
         }
+
+
 
         //code to delete data
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var student = db.Students.Find(id);
-          //  db.Students.Remove(student);
-           // db.SaveChanges();
+            var student = studentRepository.Findasync(id);
             student.Active = false;
-            db.SaveChanges();
-            return RedirectToAction("List");
+            return View(student?.ToViewModel());
         }
 
 
-        /*[HttpPost]
-        public IActionResult Delete(Student student)
+        [HttpPost]
+        public IActionResult Delete(StudentViewModel studentViewModel)
         {
-            var s=db.Students.Find(student.Id);
-            s.Active = false;//soft delete
-            db.SaveChanges();
+            var s=studentRepository.Findasync(studentViewModel.Id);
+            s.Active = false;
+            studentRepository.Commit();
             return RedirectToAction("List");
-        }*/
+        }
     }
 }

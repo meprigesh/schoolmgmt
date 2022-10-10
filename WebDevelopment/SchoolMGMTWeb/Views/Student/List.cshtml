@@ -1,5 +1,9 @@
 ﻿@model List<StudentViewModel>
 <a class="btn btn-success" asp-controller="Student" asp-action="Add">Add New Student</a>
+<form class="d-flex w-50" role="search">
+    <input class="form-control me-2" type="search" name="searchText" placeholder="search by name" />
+    <button class="btn btn-success" type="submit">Search</button>
+</form>
 <table class="table table-bordered">
     <thead>
         <tr>
